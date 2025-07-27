@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Remzi Cetin - Portfolio</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+        background: #0a0a0a;
+        color: #ffffff;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      .contact-link {
+        color: inherit; /* keep your text color */
+        text-decoration: none; /* no underline */
+        display: flex;
+        align-items: center;
+        gap: 0.5em;
+      }
+
+      .contact-link:hover {
+        text-decoration: underline; /* subtle hover effect */
+      }
+
+      /* Animated background */
+      .bg-animation {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background: linear-gradient(-45deg, #0a0a0a, #1a1a2e, #16213e, #0f0f23);
+        background-size: 400% 400%;
+        animation: gradientShift 15s ease infinite;
+      }
+
+      @keyframes gradientShift {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      /* Navigation */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        padding: 1rem 2rem;
+        backdrop-filter: blur(20px);
+        background: rgba(10, 10, 10, 0.8);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        z-index: 1000;
+        transition: all 0.3s ease;
+      }
+
+      .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 2rem;
+      }
+
+      .nav-links a {
+        color: #ffffff;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        position: relative;
+      }
+
+      .nav-links a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        transition: width 0.3s ease;
+      }
+
+      .nav-links a:hover::after {
+        width: 100%;
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 0 2rem;
+        position: relative;
+      }
+
+      .hero-content {
+        max-width: 800px;
+        animation: fadeInUp 1s ease-out;
+      }
+
+      .hero h1 {
+        font-size: clamp(3rem, 8vw, 6rem);
+        font-weight: 800;
+        margin-bottom: 1rem;
+        background: linear-gradient(
+          135deg,
+          #667eea 0%,
+          #764ba2 50%,
+          #f093fb 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        color: #b0b0b0;
+      }
+
+      .cta-button {
+        display: inline-block;
+        padding: 1rem 2rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+      }
+
+      .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 40px rgba(102, 126, 234, 0.4);
+      }
+
+      /* Sections */
+      .section {
+        padding: 5rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section h2 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 3rem;
+        text-align: center;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* About Section - Combined with Skills */
+      .about-content {
+        display: flex;
+        flex-direction: row;
+        gap: 4rem;
+        align-items: flex-start;
+        margin-bottom: 4rem;
+      }
+
+      .about-image {
+        width: 300px;
+        height: 300px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 4rem;
+        margin: 0 auto;
+      }
+
+      .about-text {
+        font-size: 1.1rem;
+        color: #b0b0b0;
+        line-height: 1.8;
+        text-align: center;
+      }
+
+      .skills-section {
+        margin-top: 4rem;
+      }
+
+      .skills-title {
+        font-size: 2rem;
+        font-weight: 600;
+        margin-bottom: 2rem;
+        text-align: center;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 2rem;
+      }
+
+      .skill-item {
+        text-align: center;
+        padding: 2rem 1rem;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .skill-icon img {
+        width: 3rem;
+        height: 3rem;
+      }
+
+      .skill-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .skill-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Projects Section */
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 2rem;
+        margin-top: 3rem;
+      }
+
+      .project-card {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 20px;
+        padding: 2rem;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .project-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        transition: left 0.5s ease;
+      }
+
+      .project-card:hover::before {
+        left: 100%;
+      }
+
+      .project-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .project-image {
+        width: 100%;
+        height: 200px;
+        border-radius: 10px;
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .project-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .project-card:hover .project-image img {
+        transform: scale(1.05);
+      }
+
+      .project-card h3 {
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        color: #ffffff;
+      }
+
+      .project-card p {
+        color: #b0b0b0;
+        margin-bottom: 1.5rem;
+      }
+
+      .project-tech {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .tech-tag {
+        background: rgba(102, 126, 234, 0.2);
+        color: #667eea;
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+
+      .project-links {
+        display: flex;
+        gap: 1rem;
+      }
+
+      .project-link {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+
+      .project-link:hover {
+        color: #764ba2;
+      }
+
+      /* Contact Section */
+      .contact-content {
+        text-align: center;
+        max-width: 600px;
+        margin: 0 auto;
+      }
+
+      .contact-info {
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        margin-top: 3rem;
+        flex-wrap: wrap;
+      }
+
+      .contact-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        color: #b0b0b0;
+      }
+
+      .contact-icon {
+        font-size: 1.5rem;
+        color: #667eea;
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-in-up {
+        animation: fadeInUp 0.8s ease-out;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+
+        .about-content {
+          grid-template-columns: 1fr;
+          text-align: center;
+        }
+
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .contact-info {
+          flex-direction: column;
+          gap: 2rem;
+        }
+      }
+
+      /* Smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      ::-webkit-scrollbar-track {
+        background: #1a1a1a;
+      }
+
+      ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="bg-animation"></div>
+
+    <nav>
+      <div class="nav-container">
+        <div class="logo">Portfolio</div>
+        <ul class="nav-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <section id="home" class="hero">
+      <div class="hero-content">
+        <h1>Remzi Cetin</h1>
+        <p>Software Developer & Master's Student in Software Engineering</p>
+        <a href="#projects" class="cta-button">View My Work</a>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <h2>About Me</h2>
+      <div class="about-content">
+        <div class="about-text">
+          <p>
+            I'm a passionate full-stack developer skilled in building
+            innovative, user-focused solutions, with a background in mobile
+            application development, machine learning, and cloud-based systems.
+            I hold a Bachelor's degree in Computer Science from the University
+            of Innsbruck and am currently pursuing a Master's degree in Software
+            Engineering.
+          </p>
+        </div>
+      </div>
+
+      <div class="skills-section">
+        <h3 class="skills-title">Skills & Technologies</h3>
+        <div class="skills-grid">
+          <div class="skill-item">
+            <div class="skill-icon">☕️</div>
+            <h4>Java</h4>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">⏻</div>
+            <h4>Spring Boot</h4>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">⚛️</div>
+            <h4>React</h4>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">📱</div>
+            <h4>React Native</h4>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">🟢</div>
+            <h4>Node.js</h4>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">⚡</div>
+            <h4>Express.js</h4>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">🐍</div>
+            <h4>Python</h4>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">☁️</div>
+            <h4>AWS</h4>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">🐳</div>
+            <h4>Docker</h4>
+          </div>
+          <div class="skill-item">
+            <div class="skill-icon">🎨</div>
+            <h4>UI/UX</h4>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section">
+      <h2>Featured Projects</h2>
+      <div class="projects-grid">
+        <div class="project-card">
+          <div class="project-image">
+            <img src="./images/iDoctor.jpg" alt="iDoctor" />
+          </div>
+          <h3>iDoctor</h3>
+          <p>
+            A comprehensive mobile healthcare application that helps users
+            identify potential health problems based on symptoms, find suitable
+            doctors, book appointments, and communicate with healthcare
+            professionals through an integrated chat system.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">Java</span>
+            <span class="tech-tag">Spring Boot</span>
+            <span class="tech-tag">Flask</span>
+            <span class="tech-tag">React Native</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">GitHub</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-image">
+            <img src="./images/EV Sales Prediction.jpg" alt="ev sales" />
+          </div>
+          <h3>EV Sales Prediction</h3>
+          <p>
+            Development of advanced machine learning models to forecast electric
+            vehicle sales trends and market growth. Implemented various
+            predictive algorithms to analyze historical data and eventually to
+            generate future sales projections with high accuracy.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">Machine Learning</span>
+            <span class="tech-tag">Data Analysis</span>
+            <span class="tech-tag">Predictive Modeling</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">GitHub</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-image">
+            <img src="./images/Memori Learning Platform.jpg" alt="memori" />
+          </div>
+          <h3>Memori</h3>
+          <p>
+            A sophisticated web application for efficient learning through
+            flashcards, comparable to Anki. Features include spaced repetition
+            algorithms, progress tracking, and collaborative study sessions to
+            enhance memory retention and learning outcomes.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">Java</span>
+            <span class="tech-tag">Spring Boot</span>
+            <span class="tech-tag">React</span>
+            <span class="tech-tag">Educational Tech</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">GitHub</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-image">
+            <img src="./images/Smart Parking & Traffic.jpg" alt="traffic" />
+          </div>
+          <h3>Smart Parking & Traffic Analytics</h3>
+          <p>
+            An intelligent system for real-time analysis of parking availability
+            and traffic volume using computer vision and image processing.
+            Deployed on AWS cloud infrastructure for scalable and reliable
+            monitoring of urban transportation systems.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">Computer Vision</span>
+            <span class="tech-tag">AWS</span>
+            <span class="tech-tag">Image Processing</span>
+            <span class="tech-tag">IoT</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">GitHub</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-image">
+            <img src="./images/Sign Language.jpg" alt="sign language" />
+          </div>
+          <h3>Sign Language Image Classifier</h3>
+          <p>
+            Developed models to classify 9,680 grayscale sign language images
+            (letters a–z and digits 0–9) into 36 classes. Implemented two
+            approaches: a Convolutional Neural Network using PyTorch and a
+            Support Vector Machine with PCA and grid search.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">PyTorch</span>
+            <span class="tech-tag">scikit-learn</span>
+            <span class="tech-tag">Neural Networks</span>
+            <span class="tech-tag">SVM</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">GitHub</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-image">
+            <img src="./images/book notes.jpg" alt="book notes" />
+          </div>
+          <h3>Book Notes</h3>
+          <p>
+            A web application designed for tracking books, personal notes,
+            ratings, and reading history. Users can organize their collection by
+            rating, recency, or title, and cover images are dynamically fetched
+            using the Open Library Covers API.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">JavaScript</span>
+            <span class="tech-tag">Express.js</span>
+            <span class="tech-tag">Node.js</span>
+            <span class="tech-tag">EJS</span>
+            <span class="tech-tag">API Integration</span>
+            <span class="tech-tag">Open Library API</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">GitHub</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-image">
+            <img src="./images/Game of Life.jpg" alt="game of life" />
+          </div>
+          <h3>Conway's Game of Life</h3>
+          <p>
+            A project focused on implementing Conway's Game of Life, using the C
+            programming language. The program allows users to observe the
+            dynamic behavior of cells and study emergent phenomena in a
+            grid-based environment. It also introduced fundamental concepts of
+            algorithm design.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">C Programming</span>
+            <span class="tech-tag">Simulation</span>
+            <span class="tech-tag">Algorithms</span>
+          </div>
+          <div class="project-links">
+            <a href="#" class="project-link">GitHub</a>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="project-image">
+            <img src="./images/watch out.png" alt="watch out" />
+          </div>
+          <h3>Watch out – Arcade Game</h3>
+          <p>
+            An arcade game built with Java and Swing during high school, serving
+            as my first major programming project. Players control a square to
+            collect white dots for points while avoiding red dots that end the
+            game. This project introduced me to object-oriented programming,
+            event handling, and 2D game development concepts.
+          </p>
+          <div class="project-tech">
+            <span class="tech-tag">Java</span>
+            <span class="tech-tag">Swing</span>
+            <span class="tech-tag">Game Development</span>
+            <span class="tech-tag">2D Graphics</span>
+          </div>
+          <div class="project-links">
+            <a href="https://thesymbol.itch.io/watch-out" class="project-link"
+              >View Details</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <h2>Get In Touch</h2>
+      <div class="contact-content">
+        <p>
+          I'm always interested in hearing about new opportunities and exciting
+          projects. Let's connect!
+        </p>
+        <div class="contact-info">
+          <div class="contact-item">
+            <a href="mailto:remzi.cetin64@gmail.com" class="contact-link">
+              <span class="contact-icon">📧</span>
+              <span>remzi.cetin64@gmail.com</span>
+            </a>
+          </div>
+          <div class="contact-item">
+            <a
+              href="https://github.com/izmers"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="contact-link"
+            >
+              <span class="contact-icon">🐙</span>
+              <span>GitHub Profile</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // Smooth scrolling for navigation links
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute("href"));
+          if (target) {
+            target.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+          }
+        });
+      });
+
+      // Add animation on scroll
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("fade-in-up");
+          }
+        });
+      }, observerOptions);
+
+      // Observe all sections
+      document.querySelectorAll(".section").forEach((section) => {
+        observer.observe(section);
+      });
+
+      // Navbar background on scroll
+      window.addEventListener("scroll", () => {
+        const nav = document.querySelector("nav");
+        if (window.scrollY > 100) {
+          nav.style.background = "rgba(10, 10, 10, 0.95)";
+        } else {
+          nav.style.background = "rgba(10, 10, 10, 0.8)";
+        }
+      });
+    </script>
+  </body>
+</html>
